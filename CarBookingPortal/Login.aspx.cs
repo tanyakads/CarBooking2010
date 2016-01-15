@@ -34,7 +34,7 @@ namespace CarBookingPortal
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('you have logged in successfully');", true);
                 Session["LoginName"] = strUsername;
-                Response.Redirect("~/Home.aspx");//On login move to home page
+                Response.Redirect("~/Home.aspx");
             }
             else
             {

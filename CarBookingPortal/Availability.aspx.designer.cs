@@ -10,42 +10,60 @@
 namespace CarBookingPortal {
     
     
-    public partial class SiteMaster {
+    public partial class Availability {
         
         /// <summary>
-        /// HeadContent control.
+        /// txtBoxFromTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxFromTime;
         
         /// <summary>
-        /// HeadLoginView control.
+        /// txtBoxToTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LoginView HeadLoginView;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxToTime;
         
         /// <summary>
-        /// NavigationMenu control.
+        /// btnCheck control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu NavigationMenu;
+        protected global::System.Web.UI.WebControls.Button btnCheck;
         
         /// <summary>
-        /// MainContent control.
+        /// btnBook control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Button btnBook;
+        
+        /// <summary>
+        /// pnlBookingDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlBookingDetails;
+        
+        /// <summary>
+        /// txtBoxPurpose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBoxPurpose;
     }
 }
