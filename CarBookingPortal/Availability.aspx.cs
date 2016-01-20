@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -16,6 +17,24 @@ namespace CarBookingPortal
             {
                 Response.Redirect("~/Login.aspx");
             }
+            GetDataFromDatabase();
+        }
+
+        private void GetDataFromDatabase()
+        {
+            //Get data from db and display it
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable dt = new DataTable();
+
+            MySqlConnection connection = new MySqlConnection("Data Source = Localhost; server = localhost; user = root; pwd = root123; database = db_carbooking; port = 3306;");
+            MySqlCommand command = new MySqlCommand("SELECT * FROM bookingdata WHERE bookingFromDT > NOW() AND username='"+Session["LoginName"]+"';", connection);
+            connection.Open();
+            adapter = new MySqlDataAdapter(command);
+            adapter.Fill(dt);
+            connection.Close();
+            gdViewBookingData.DataSource = dt;
+            gdViewBookingData.DataBind();
         }
 
         protected void btnCheck_Click(object sender, EventArgs e)
@@ -55,13 +74,15 @@ namespace CarBookingPortal
 
             #region GetFromDB
             MySqlConnection connection = new MySqlConnection("Data Source = Localhost; server = localhost; user = root; pwd = root123; database = db_carbooking; port = 3306;");
-            MySqlCommand command = new MySqlCommand("SELECT * FROM bookingdata;", connection);
+            MySqlCommand command = new MySqlCommand("SELECT * FROM bookingdata WHERE bookingFromDT > NOW();", connection);
             connection.Open();
             MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
-                dtBookedFrom = DateTime.ParseExact(reader.GetString(3), "HH:mm:ss dd-MM-yyyy", null);//HH:mm:ss dd-MM-yyyy
-                dtBookedTo = DateTime.ParseExact(reader.GetString(4), "HH:mm:ss dd-MM-yyyy", null);//HH:mm:ss dd-MM-yyyy
+                string temp = reader.GetString(3);
+                dtBookedFrom = DateTime.ParseExact(temp, "dd-MM-yyyy HH:mm:ss", null);//HH:mm:ss dd-MM-yyyy
+                temp = reader.GetString(4);
+                dtBookedTo = DateTime.ParseExact(temp, "dd-MM-yyyy HH:mm:ss", null);//HH:mm:ss dd-MM-yyyy
             }
             connection.Close(); 
             #endregion
@@ -100,17 +121,31 @@ namespace CarBookingPortal
             string strFromTime = txtBoxFromTime.Text;   //HH:mm:ss
             string strToTime = txtBoxToTime.Text;       //HH:mm:ss
 
-            string strDay = DateTime.Now.ToString("dd-MM-yyyy");
-            string strFromDay_Time = strFromTime + " " + strDay;
-            string strToDay_Time = strToTime + " " + strDay;
-            
+            string strDay = DateTime.Now.ToString("yyyy-MM-dd");
+            string strFromDay_Time = strDay+" "+ strFromTime;
+            string strToDay_Time = strDay + " " + strToTime;
+            //2016-01-20 21:31:42
+            //yyyy-MM-dd HH:mm:ss
             MySqlConnection connection = new MySqlConnection("Data Source = Localhost; server = localhost; user = root; pwd = root123; database = db_carbooking; port = 3306;");
-            MySqlCommand command = new MySqlCommand("INSERT INTO bookingdata(username,bookingDT,bookingFromDT,bookingToDT,Purpose) VALUE('"+ Session["LoginName"].ToString()+ "','"+ DateTime.Now.ToString("HH:mm:ss dd-MM-yyyy") +"','"+ strFromDay_Time + "','"+ strToDay_Time + "','"+txtBoxPurpose.Text+"');", connection);
+            MySqlCommand command = new MySqlCommand("INSERT INTO bookingdata(username,bookingDT,bookingFromDT,bookingToDT,Purpose) VALUE('"+ Session["LoginName"].ToString()+ "','"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"','"+ strFromDay_Time + "','"+ strToDay_Time + "','"+txtBoxPurpose.Text+"');", connection);
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
 
             return bReturn;
+        }
+
+        protected void gdViewBookingData_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            // string bookingID = gdViewBookingData.DataKeys[e.RowIndex].Values["bookingID"].ToString();
+            string bookingID = gdViewBookingData.Rows[e.RowIndex].Cells[1].Text;
+
+            MySqlConnection connection = new MySqlConnection("Data Source = Localhost; server = localhost; user = root; pwd = root123; database = db_carbooking; port = 3306;");
+            MySqlCommand command = new MySqlCommand("DELETE FROM bookingdata WHERE username='"+ Session["LoginName"] + "' AND bookingID="+ bookingID + ";", connection);
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+            GetDataFromDatabase();
         }
     }
 }

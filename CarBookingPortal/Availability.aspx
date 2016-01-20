@@ -3,22 +3,32 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <p>
-        Enter from time :
-        <asp:TextBox ID="txtBoxFromTime" runat="server"></asp:TextBox>
-    </p>
-    <p>
-        Enter to Time :
-        <asp:TextBox ID="txtBoxToTime" runat="server"></asp:TextBox>
-    </p>
-    <p>
-        <asp:Button ID="btnCheck" runat="server" OnClick="btnCheck_Click" Text="Check" />
-        <asp:Button ID="btnBook" runat="server" OnClick="btnBook_Click" Text="Book" Visible="False" />
-    </p>
-    <p>
-        &nbsp;</p>
-    <asp:Panel ID="pnlBookingDetails" runat="server" Visible="False">
-        Purpose :
-        <asp:TextBox ID="txtBoxPurpose" runat="server" Height="56px" MaxLength="200" TextMode="MultiLine" Width="215px"></asp:TextBox>
-        <br />
+    Enter from time :
+    <asp:TextBox ID="txtBoxFromTime" runat="server"></asp:TextBox>
+</p>
+<p>
+    Enter to Time :
+    <asp:TextBox ID="txtBoxToTime" runat="server"></asp:TextBox>
+</p>
+<p>
+    <asp:Button ID="btnCheck" runat="server" OnClick="btnCheck_Click" Text="Check" />
+    <asp:Button ID="btnBook" runat="server" OnClick="btnBook_Click" Text="Book" Visible="False" />
+</p>
+<p>
+    &nbsp;</p>
+<asp:Panel ID="pnlBookingDetails" runat="server" Visible="False">
+    Purpose :
+    <asp:TextBox ID="txtBoxPurpose" runat="server" Height="56px" MaxLength="200" TextMode="MultiLine" Width="215px"></asp:TextBox>
+    <br />
+    <br />
+    <br />
     </asp:Panel>
+    <asp:GridView ID="gdViewBookingData" runat="server" OnRowDeleting="gdViewBookingData_RowDeleting">
+        <Columns>
+            <asp:ButtonField ButtonType="Button" CommandName="Delete" HeaderText="Action" Text="Cancel" />
+        </Columns>
+    </asp:GridView>
+    <br />
+    <br />
+
 </asp:Content>
